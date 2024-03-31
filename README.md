@@ -1,1 +1,1 @@
-# wcc.games
+# wcc.core
