@@ -100,6 +100,7 @@ namespace wcc.core.data
                 {
                     Name = player.Name,
                     IsActive = player.IsActive,
+                    UserId = player.UserId,
                     Token = player.Token
                 });
                 session.SaveChanges();
@@ -115,6 +116,7 @@ namespace wcc.core.data
 
                 playerDto.Name = player.Name;
                 playerDto.IsActive = player.IsActive;
+                playerDto.UserId = player.UserId;
                 playerDto.Token = player.Token;
 
                 session.SaveChanges();
