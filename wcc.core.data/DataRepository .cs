@@ -1,4 +1,5 @@
-﻿using Raven.Client.Documents.Session;
+﻿using Newtonsoft.Json.Linq;
+using Raven.Client.Documents.Session;
 using Sparrow;
 using System;
 using System.Collections.Generic;
@@ -73,5 +74,62 @@ namespace wcc.core.data
             return true;
         }
         #endregion Tournament
+
+        #region Player
+        public IList<Player> GetPlayers()
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Player>().ToList();
+            }
+        }
+
+        public Player? GetPlayer(string playerId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Player>().FirstOrDefault(x => x.Id == playerId);
+            }
+        }
+
+        public bool SavePlayer(Player player)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Store(new Player()
+                {
+                    Name = player.Name,
+                    IsActive = player.IsActive,
+                    Token = player.Token
+                });
+                session.SaveChanges();
+            }
+            return true;
+        }
+        public bool UpdatePlayer(Player player)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                var playerDto = session.Query<Player>().FirstOrDefault(x => x.Id == player.Id);
+                if (playerDto == null) return false;
+
+                playerDto.Name = player.Name;
+                playerDto.IsActive = player.IsActive;
+                playerDto.Token = player.Token;
+
+                session.SaveChanges();
+            }
+            return true;
+        }
+        public bool DeletePlayer(string playerId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Delete(playerId);
+                session.SaveChanges();
+            }
+            return true;
+        }
+        #endregion Player
     }
 }

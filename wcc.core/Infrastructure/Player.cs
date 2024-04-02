@@ -8,6 +8,8 @@ namespace wcc.core.Infrastructure
 {
     public class Player : Document
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
+        public bool IsActive { get; set; }
+        public string? Token { get; set; }
     }
 }
