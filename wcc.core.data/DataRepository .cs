@@ -131,5 +131,62 @@ namespace wcc.core.data
             return true;
         }
         #endregion Player
+
+        #region Team
+        public IList<Team> GetTeams()
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Team>().ToList();
+            }
+        }
+
+        public Team? GetTeam(string teamId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Team>().FirstOrDefault(x => x.Id == teamId);
+            }
+        }
+
+        public bool SaveTeam(Team team)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Store(new Team()
+                {
+                    Name = team.Name,
+                    PlayerIds = team.PlayerIds,
+                    TournamentId = team.TournamentId
+                });
+                session.SaveChanges();
+            }
+            return true;
+        }
+        public bool UpdateTeam(Team team)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                var teamDto = session.Query<Team>().FirstOrDefault(x => x.Id == team.Id);
+                if (teamDto == null) return false;
+
+                teamDto.Name = team.Name;
+                teamDto.PlayerIds = team.PlayerIds;
+                teamDto.TournamentId = team.TournamentId;
+
+                session.SaveChanges();
+            }
+            return true;
+        }
+        public bool DeleteTeam(string teamId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Delete(teamId);
+                session.SaveChanges();
+            }
+            return true;
+        }
+        #endregion Team
     }
 }

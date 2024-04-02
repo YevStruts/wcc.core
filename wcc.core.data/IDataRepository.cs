@@ -25,5 +25,13 @@ namespace wcc.core.data
         bool UpdatePlayer(Player player);
         bool DeletePlayer(string playerId);
         #endregion Player
+
+        #region Team
+        IList<Team> GetTeams();
+        Team? GetTeam(string teamId);
+        bool SaveTeam(Team team);
+        bool UpdateTeam(Team team);
+        bool DeleteTeam(string teamId);
+        #endregion Team
     }
 }
