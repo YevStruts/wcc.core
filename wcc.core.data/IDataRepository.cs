@@ -33,5 +33,13 @@ namespace wcc.core.data
         bool UpdateTeam(Team team);
         bool DeleteTeam(string teamId);
         #endregion Team
+
+        #region Game
+        IList<Game> GetGames();
+        Game? GetGame(string gameId);
+        bool SaveGame(Game game);
+        bool UpdateGame(Game game);
+        bool DeleteGame(string gameId);
+        #endregion Game
     }
 }

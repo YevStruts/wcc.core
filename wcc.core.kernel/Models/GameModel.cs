@@ -9,6 +9,12 @@ namespace wcc.core.kernel.Models
 {
     public class GameModel
     {
-        public long GameId { get; set; }
+        public string? Id { get; set; }
+        public GameType GameType { get; set; }
+        public List<string>? SideA { get; set; }
+        public List<string>? SideB { get; set; }
+        public int ScoreA { get; set; }
+        public int ScoreB { get; set; }
+        public string? TournamentId { get; set; }
     }
 }

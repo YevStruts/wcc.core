@@ -188,5 +188,68 @@ namespace wcc.core.data
             return true;
         }
         #endregion Team
+
+        #region Game
+        public IList<Game> GetGames()
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Game>().ToList();
+            }
+        }
+
+        public Game? GetGame(string gameId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Game>().FirstOrDefault(x => x.Id == gameId);
+            }
+        }
+
+        public bool SaveGame(Game game)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Store(new Game()
+                {
+                    GameType = game.GameType,
+                    SideA = game.SideA,
+                    SideB = game.SideB,
+                    ScoreA = game.ScoreA,
+                    ScoreB = game.ScoreB,
+                    TournamentId = game.TournamentId
+                });
+                session.SaveChanges();
+            }
+            return true;
+        }
+        public bool UpdateGame(Game game)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                var gameDto = session.Query<Game>().FirstOrDefault(x => x.Id == game.Id);
+                if (gameDto == null) return false;
+
+                gameDto.GameType = game.GameType;
+                gameDto.SideA = game.SideA;
+                gameDto.SideB = game.SideB;
+                gameDto.ScoreA = game.ScoreA;
+                gameDto.ScoreB = game.ScoreB;
+                gameDto.TournamentId = game.TournamentId;
+
+                session.SaveChanges();
+            }
+            return true;
+        }
+        public bool DeleteGame(string gameId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Delete(gameId);
+                session.SaveChanges();
+            }
+            return true;
+        }
+        #endregion Game
     }
 }
