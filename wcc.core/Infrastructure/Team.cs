@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace wcc.core.Infrastructure
 {
-    public class Team
+    public class Team : Document
     {
-        public long TeamId { get; set; }
         public string Name { get; set; }
-        public List<long> PlayerIds { get; set; }
+        public List<string> PlayerIds { get; set; }
         public long TournamentId { get; set; }
     }
 }

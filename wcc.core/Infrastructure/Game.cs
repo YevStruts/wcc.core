@@ -1,13 +1,12 @@
 ﻿namespace wcc.core.Infrastructure
 {
-    public class Game
+    public class Game : Document
     {
-        public long GameId { get; set; }
         public GameType GameType { get; set; }
-        public List<long> SideA { get; set; }
-        public List<long> SideB { get; set; }
+        public List<string> SideA { get; set; }
+        public List<string> SideB { get; set; }
         public int ScoreA { get; set; }
         public int ScoreB { get; set; }
-        public long TournamentId { get; set; }
+        public string TournamentId { get; set; }
     }
 }

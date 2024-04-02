@@ -21,6 +21,7 @@ namespace wcc.core.kernel.Helpers
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.CreateMap<Game, GameModel>().ReverseMap();
+                        cfg.CreateMap<Tournament, TournamentModel>().ReverseMap();
                     });
 
                     instance = new Mapper(config);
