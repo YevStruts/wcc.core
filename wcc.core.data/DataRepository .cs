@@ -40,8 +40,7 @@ namespace wcc.core.data
                     Name = tournament.Name,
                     Description = tournament.Description,
                     ImageUrl = tournament.ImageUrl,
-                    GameType = tournament.GameType,
-                    Participants = tournament.Participants
+                    GameType = tournament.GameType
                 });
                 session.SaveChanges();
             }
@@ -58,7 +57,6 @@ namespace wcc.core.data
                 tournamentDto.Description = tournament.Description;
                 tournamentDto.ImageUrl = tournament.ImageUrl;
                 tournamentDto.GameType = tournament.GameType;
-                tournamentDto.Participants = tournament.Participants;
 
                 session.SaveChanges();
             }
