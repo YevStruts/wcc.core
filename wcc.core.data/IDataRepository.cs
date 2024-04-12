@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Raven.Client.Documents.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -35,7 +36,7 @@ namespace wcc.core.data
         #endregion Team
 
         #region Game
-        IList<Game> GetGames();
+        IList<Game> GetGames(int page, int count);
         Game? GetGame(string gameId);
         bool SaveGame(Game game);
         bool UpdateGame(Game game);

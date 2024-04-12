@@ -1,14 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
-using Sparrow;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using wcc.core.Infrastructure;
-using static System.Collections.Specialized.BitVector32;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace wcc.core.data
 {
@@ -190,11 +183,11 @@ namespace wcc.core.data
         #endregion Team
 
         #region Game
-        public IList<Game> GetGames()
+        public IList<Game> GetGames(int page, int count)
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
             {
-                return session.Query<Game>().ToList();
+                return session.Query<Game>().Skip((page - 1) * count).Take(count).ToList();
             }
         }
 

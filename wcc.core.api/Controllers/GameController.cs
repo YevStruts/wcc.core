@@ -20,9 +20,9 @@ namespace wcc.core.api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<GameModel>> Get()
+        public async Task<IEnumerable<GameModel>> Get(int page = 1, int count = 20)
         {
-            return await _mediator.Send(new GetGamesQuery());
+            return await _mediator.Send(new GetGamesQuery(page, count));
         }
 
         [HttpGet("{id}")]
