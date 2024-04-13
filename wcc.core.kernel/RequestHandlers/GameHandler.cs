@@ -16,12 +16,14 @@ namespace wcc.core.kernel.RequestHandlers
 {
     public class GetGamesQuery : IRequest<IList<GameModel>>
     {
-        public int Page { get; set; }
-        public int Count { get; set; }
+        public string TournamentId { get; private set; }
+        public int Page { get; private set; }
+        public int Count { get; private set; }
 
-        public GetGamesQuery(int page, int count)
+        public GetGamesQuery(string tournamentId, int page, int count)
         {
-            Page = page;
+            TournamentId = tournamentId;
+            Page = page <= 0 ? 1 : page;
             Count = count;
         }
     }
@@ -71,10 +73,9 @@ namespace wcc.core.kernel.RequestHandlers
 
         public async Task<IList<GameModel>> Handle(GetGamesQuery request, CancellationToken cancellationToken)
         {
-            if (request.Page <= 0)
-                request.Page = 1;
-
-            var games = _db.GetGames(request.Page, request.Count);
+            var games = string.IsNullOrEmpty(request.TournamentId) ?
+                _db.GetGames(request.Page, request.Count) :
+                _db.GetGamesForTournament(request.TournamentId, request.Page, request.Count);
             return _mapper.Map<List<GameModel>>(games);
         }
 

@@ -183,6 +183,17 @@ namespace wcc.core.data
         #endregion Team
 
         #region Game
+        public IList<Game> GetGamesForTournament(string tournamentId, int page, int count)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Game>()
+                    .Where(g => g.TournamentId == tournamentId)
+                    .OrderByDescending(g => g.CreatedAt)
+                    .Skip((page - 1) * count).Take(count).ToList();
+            }
+        }
+
         public IList<Game> GetGames(int page, int count)
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())

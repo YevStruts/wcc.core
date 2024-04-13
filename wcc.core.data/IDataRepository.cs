@@ -36,6 +36,7 @@ namespace wcc.core.data
         #endregion Team
 
         #region Game
+        IList<Game> GetGamesForTournament(string tournamentId, int page, int count);
         IList<Game> GetGames(int page, int count);
         Game? GetGame(string gameId);
         bool SaveGame(Game game);
