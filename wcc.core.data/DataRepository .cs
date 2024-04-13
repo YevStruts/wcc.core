@@ -187,7 +187,8 @@ namespace wcc.core.data
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
             {
-                return session.Query<Game>().Skip((page - 1) * count).Take(count).ToList();
+                return session.Query<Game>().OrderByDescending(g => g.CreatedAt)
+                    .Skip((page - 1) * count).Take(count).ToList();
             }
         }
 
