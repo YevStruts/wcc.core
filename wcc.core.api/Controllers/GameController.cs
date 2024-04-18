@@ -44,5 +44,11 @@ namespace wcc.core.api.Controllers
             string gameId = HttpUtility.UrlDecode(id);
             return await _mediator.Send(new DeleteGameQuery(gameId));
         }
+
+        [HttpGet, Route("Count")]
+        public async Task<int> Count(string? tournamentId = null)
+        {
+            return await _mediator.Send(new GetGamesCountQuery(tournamentId));
+        }
     }
 }

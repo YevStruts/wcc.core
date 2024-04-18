@@ -58,10 +58,20 @@ namespace wcc.core.kernel.RequestHandlers
         }
     }
 
+    public class GetGamesCountQuery :IRequest<int>
+    {
+        public string TournamentId { get; private set; }
+        public GetGamesCountQuery(string tournamentId)
+        {
+            TournamentId = tournamentId;
+        }
+    }
+
     public class GameHandler : IRequestHandler<GetGamesQuery, IList<GameModel>>,
         IRequestHandler<GetGameQuery, GameModel>,
         IRequestHandler<SaveOrUpdateGameQuery, bool>,
-        IRequestHandler<DeleteGameQuery, bool>
+        IRequestHandler<DeleteGameQuery, bool>,
+        IRequestHandler<GetGamesCountQuery, int>
     {
         private readonly IDataRepository _db;
         private readonly IMapper _mapper = MapperHelper.Instance;
@@ -98,6 +108,11 @@ namespace wcc.core.kernel.RequestHandlers
         public async Task<bool> Handle(DeleteGameQuery request, CancellationToken cancellationToken)
         {
             return _db.DeleteGame(request.GameId);
+        }
+
+        public async Task<int> Handle(GetGamesCountQuery request, CancellationToken cancellationToken)
+        {
+            return _db.GetGamesCountForTournament(request.TournamentId);
         }
     }
 }

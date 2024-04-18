@@ -189,8 +189,21 @@ namespace wcc.core.data
             {
                 return session.Query<Game>()
                     .Where(g => g.TournamentId == tournamentId)
-                    .OrderByDescending(g => g.CreatedAt)
+                    .OrderByDescending(g => g.Scheduled)
                     .Skip((page - 1) * count).Take(count).ToList();
+            }
+        }
+
+        public int GetGamesCountForTournament(string tournamentId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                var games = session.Query<Game>();
+                if (!string.IsNullOrEmpty(tournamentId))
+                {
+                    games = games.Where(g => g.TournamentId == tournamentId);
+                }
+                return games.Count();
             }
         }
 
@@ -198,7 +211,7 @@ namespace wcc.core.data
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
             {
-                return session.Query<Game>().OrderByDescending(g => g.CreatedAt)
+                return session.Query<Game>().OrderByDescending(g => g.Scheduled)
                     .Skip((page - 1) * count).Take(count).ToList();
             }
         }
@@ -222,7 +235,9 @@ namespace wcc.core.data
                     SideB = game.SideB,
                     ScoreA = game.ScoreA,
                     ScoreB = game.ScoreB,
-                    TournamentId = game.TournamentId
+                    TournamentId = game.TournamentId,
+                    Scheduled = game.Scheduled,
+                    Youtube = game.Youtube
                 });
                 session.SaveChanges();
             }

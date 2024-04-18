@@ -9,13 +9,8 @@ namespace wcc.core
 {
     public abstract class Document
     {
-        public Document()
-        {
-            CreatedAt = DateTime.UtcNow;
-        }
 
         public string Id { get; set; }
 
-        public DateTime CreatedAt { get; protected set; }
     }
 }
