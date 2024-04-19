@@ -12,5 +12,7 @@ namespace wcc.core.Infrastructure
         public bool IsActive { get; set; }
         public string? UserId { get; set; }
         public string? Token { get; set; }
+        public int Games { get; set; }
+        public int Wins { get; set; }
     }
 }

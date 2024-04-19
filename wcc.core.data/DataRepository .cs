@@ -92,7 +92,9 @@ namespace wcc.core.data
                     Name = player.Name,
                     IsActive = player.IsActive,
                     UserId = player.UserId,
-                    Token = player.Token
+                    Token = player.Token,
+                    Games = player.Games,
+                    Wins = player.Wins,
                 });
                 session.SaveChanges();
             }
@@ -109,6 +111,8 @@ namespace wcc.core.data
                 playerDto.IsActive = player.IsActive;
                 playerDto.UserId = player.UserId;
                 playerDto.Token = player.Token;
+                playerDto.Games = player.Games;
+                playerDto.Wins = player.Wins;
 
                 session.SaveChanges();
             }
@@ -256,6 +260,8 @@ namespace wcc.core.data
                 gameDto.ScoreA = game.ScoreA;
                 gameDto.ScoreB = game.ScoreB;
                 gameDto.TournamentId = game.TournamentId;
+                gameDto.Scheduled = game.Scheduled;
+                gameDto.Youtube = game.Youtube;
 
                 session.SaveChanges();
             }
