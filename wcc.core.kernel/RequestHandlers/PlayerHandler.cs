@@ -28,6 +28,15 @@ namespace wcc.core.kernel.RequestHandlers
         }
     }
 
+    public class GetPlayerByUserIdQuery : IRequest<PlayerModel>
+    {
+        public string UserId { get; }
+        public GetPlayerByUserIdQuery(string userId)
+        {
+            this.UserId = userId;
+        }
+    }
+
     public class SaveOrUpdatePlayerQuery : IRequest<bool>
     {
         public PlayerModel Player { get; set; }
@@ -50,6 +59,7 @@ namespace wcc.core.kernel.RequestHandlers
 
     public class PlayerHandler : IRequestHandler<GetPlayersQuery, IList<PlayerModel>>,
         IRequestHandler<GetPlayerQuery, PlayerModel>,
+        IRequestHandler<GetPlayerByUserIdQuery, PlayerModel>,
         IRequestHandler<SaveOrUpdatePlayerQuery, bool>,
         IRequestHandler<DeletePlayerQuery, bool>
     {
@@ -72,7 +82,13 @@ namespace wcc.core.kernel.RequestHandlers
             var player = _db.GetPlayer(request.PlayerId);
             return _mapper.Map<PlayerModel>(player);
         }
-        
+
+        public async Task<PlayerModel> Handle(GetPlayerByUserIdQuery request, CancellationToken cancellationToken)
+        {
+            var player = _db.GetPlayerByUserId(request.UserId);
+            return _mapper.Map<PlayerModel>(player);
+        }
+
         public async Task<bool> Handle(SaveOrUpdatePlayerQuery request, CancellationToken cancellationToken)
         {
             Player player = _mapper.Map<Player>(request.Player);

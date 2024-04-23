@@ -22,6 +22,7 @@ namespace wcc.core.data
         #region Player
         IList<Player> GetPlayers();
         Player? GetPlayer(string playerId);
+        Player? GetPlayerByUserId(string userId);
         bool SavePlayer(Player player);
         bool UpdatePlayer(Player player);
         bool DeletePlayer(string playerId);

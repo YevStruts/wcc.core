@@ -83,6 +83,14 @@ namespace wcc.core.data
             }
         }
 
+        public Player? GetPlayerByUserId(string userId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Player>().FirstOrDefault(x => x.UserId == userId);
+            }
+        }
+
         public bool SavePlayer(Player player)
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
