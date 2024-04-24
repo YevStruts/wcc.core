@@ -32,6 +32,12 @@ namespace wcc.core.api.Controllers
             return await _mediator.Send(new GetPlayerQuery(playerId));
         }
 
+        [HttpPost]
+        public async Task<bool> Post(PlayerModel player)
+        {
+            return await _mediator.Send(new SaveOrUpdatePlayerQuery(player));
+        }
+
         [HttpGet, Route("ByUserId/{userId}")]
         public async Task<PlayerModel> ByUserId(string userId)
         {
