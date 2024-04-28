@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Web;
 using wcc.core.kernel.Models;
+using wcc.core.kernel.Models.Results;
 using wcc.core.kernel.RequestHandlers;
 
 namespace wcc.core.api.Controllers
@@ -33,7 +34,7 @@ namespace wcc.core.api.Controllers
         }
 
         [HttpPost]
-        public async Task<bool> Post(GameModel game)
+        public async Task<SaveOrUpdateResult<GameModel>> Post(GameModel game)
         {
             return await _mediator.Send(new SaveOrUpdateGameQuery(game));
         }

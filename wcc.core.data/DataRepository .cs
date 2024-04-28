@@ -240,17 +240,7 @@ namespace wcc.core.data
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
             {
-                session.Store(new Game()
-                {
-                    GameType = game.GameType,
-                    SideA = game.SideA,
-                    SideB = game.SideB,
-                    ScoreA = game.ScoreA,
-                    ScoreB = game.ScoreB,
-                    TournamentId = game.TournamentId,
-                    Scheduled = game.Scheduled,
-                    Youtube = game.Youtube
-                });
+                session.Store(game);
                 session.SaveChanges();
             }
             return true;

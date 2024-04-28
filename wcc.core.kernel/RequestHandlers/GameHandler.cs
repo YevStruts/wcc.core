@@ -11,6 +11,7 @@ using wcc.core.data;
 using wcc.core.Infrastructure;
 using wcc.core.kernel.Helpers;
 using wcc.core.kernel.Models;
+using wcc.core.kernel.Models.Results;
 
 namespace wcc.core.kernel.RequestHandlers
 {
@@ -38,7 +39,7 @@ namespace wcc.core.kernel.RequestHandlers
         }
     }
 
-    public class SaveOrUpdateGameQuery : IRequest<bool>
+    public class SaveOrUpdateGameQuery : IRequest<SaveOrUpdateResult<GameModel>>
     {
         public GameModel Game { get; set; }
 
@@ -69,7 +70,7 @@ namespace wcc.core.kernel.RequestHandlers
 
     public class GameHandler : IRequestHandler<GetGamesQuery, IList<GameModel>>,
         IRequestHandler<GetGameQuery, GameModel>,
-        IRequestHandler<SaveOrUpdateGameQuery, bool>,
+        IRequestHandler<SaveOrUpdateGameQuery, SaveOrUpdateResult<GameModel>>,
         IRequestHandler<DeleteGameQuery, bool>,
         IRequestHandler<GetGamesCountQuery, int>
     {
@@ -95,14 +96,29 @@ namespace wcc.core.kernel.RequestHandlers
             return _mapper.Map<GameModel>(game);
         }
         
-        public async Task<bool> Handle(SaveOrUpdateGameQuery request, CancellationToken cancellationToken)
+        public async Task<SaveOrUpdateResult<GameModel>> Handle(SaveOrUpdateGameQuery request, CancellationToken cancellationToken)
         {
+            bool success = false;
+            GameModel value = request.Game;
+
             Game game = _mapper.Map<Game>(request.Game);
             if (string.IsNullOrEmpty(game.Id))
             {
-                return _db.SaveGame(game);
+                success = _db.SaveGame(game);
+                if (success)
+                {
+                    value = _mapper.Map<GameModel>(game);
+                }
             }
-            return _db.UpdateGame(game);
+            else
+            {
+                success = _db.UpdateGame(game);
+                if (success)
+                {
+                    value = _mapper.Map<GameModel>(game);
+                }
+            }
+            return new SaveOrUpdateResult<GameModel>() { Success = success, Value = value };
         }
 
         public async Task<bool> Handle(DeleteGameQuery request, CancellationToken cancellationToken)
