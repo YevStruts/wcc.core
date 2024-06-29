@@ -39,6 +39,16 @@ namespace wcc.core.kernel.RequestHandlers
         }
     }
 
+    public class GetGamesForPlayerQuery : IRequest<IList<GameModel>>
+    {
+        public string PlayerId { get; set; }
+
+        public GetGamesForPlayerQuery(string playerId)
+        {
+            this.PlayerId = playerId;
+        }
+    }
+
     public class SaveOrUpdateGameQuery : IRequest<SaveOrUpdateResult<GameModel>>
     {
         public GameModel Game { get; set; }
@@ -70,6 +80,7 @@ namespace wcc.core.kernel.RequestHandlers
 
     public class GameHandler : IRequestHandler<GetGamesQuery, IList<GameModel>>,
         IRequestHandler<GetGameQuery, GameModel>,
+        IRequestHandler<GetGamesForPlayerQuery, IList<GameModel>>,
         IRequestHandler<SaveOrUpdateGameQuery, SaveOrUpdateResult<GameModel>>,
         IRequestHandler<DeleteGameQuery, bool>,
         IRequestHandler<GetGamesCountQuery, int>
@@ -95,7 +106,13 @@ namespace wcc.core.kernel.RequestHandlers
             var game = _db.GetGame(request.GameId);
             return _mapper.Map<GameModel>(game);
         }
-        
+
+        public async Task<IList<GameModel>> Handle(GetGamesForPlayerQuery request, CancellationToken cancellationToken)
+        {
+            var games = _db.GetGamesForPlayer(request.PlayerId);
+            return _mapper.Map<IList<GameModel>>(games);
+        }
+
         public async Task<SaveOrUpdateResult<GameModel>> Handle(SaveOrUpdateGameQuery request, CancellationToken cancellationToken)
         {
             bool success = false;

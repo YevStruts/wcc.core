@@ -206,6 +206,17 @@ namespace wcc.core.data
             }
         }
 
+        public IList<Game> GetGamesForPlayer(string playerId)
+        {
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                return session.Query<Game>()
+                    .Where(g => g.SideA.Contains(playerId) || g.SideB.Contains(playerId))
+                    .OrderByDescending(g => g.Scheduled)
+                    .ToList();
+            }
+        }
+
         public int GetGamesCountForTournament(string tournamentId)
         {
             using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())

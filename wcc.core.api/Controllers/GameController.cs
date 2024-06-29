@@ -33,6 +33,14 @@ namespace wcc.core.api.Controllers
             return await _mediator.Send(new GetGameQuery(gameId));
         }
 
+
+        [HttpGet, Route("player/{id}")]
+        public async Task<IEnumerable<GameModel>> GetGamesForPlayer(string id)
+        {
+            string playerId = HttpUtility.UrlDecode(id);
+            return await _mediator.Send(new GetGamesForPlayerQuery(playerId));
+        }
+
         [HttpPost]
         public async Task<SaveOrUpdateResult<GameModel>> Post(GameModel game)
         {
